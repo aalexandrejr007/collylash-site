@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colly Lash · Agendamento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8F6; --blush:#F8E4E6; --blush2:#F2D0D5; --rose:#C9667B; --rose-d:#A94E63;
+    --ink:#3A2A2F; --muted:#8A7479; --gold:#C6A07A; --line:#EED9DC; --white:#fff;
+    --r:18px; --shadow:0 10px 30px -12px rgba(169,78,99,.25);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:560px;margin:0 auto;padding:0 20px}
+  h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;letter-spacing:.2px}
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  a{color:inherit}
+
+  .proto{background:var(--ink);color:#fff;font-size:12px;text-align:center;padding:7px 12px;letter-spacing:.3px}
+  .proto b{color:var(--blush2)}
+
+  /* hero */
+  .hero{text-align:center;padding:44px 0 34px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:-40% -30% auto;height:320px;background:radial-gradient(closest-side,var(--blush2),transparent);opacity:.8;z-index:-1}
+  .avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;
+    background:linear-gradient(145deg,var(--blush2),var(--rose));color:#fff;font-family:'Cormorant Garamond',serif;font-size:46px;font-style:italic;
+    box-shadow:0 0 0 5px var(--cream),0 0 0 6px var(--blush2),var(--shadow)}
+  .hero h1.logo{font-family:'Great Vibes',cursive;font-weight:400;font-size:112px;line-height:1;color:var(--rose)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .swash{display:block;margin:2px auto 0}
+  .hero .tag{font-size:13px;letter-spacing:7px;padding-left:7px;text-transform:uppercase;color:var(--ink);margin-top:8px;font-weight:500}
+  .hero p{color:var(--muted);margin:14px auto 22px;max-width:340px}
+  .cta{text-decoration:none;display:inline-flex;align-items:center;gap:8px;background:var(--rose);color:#fff;padding:15px 28px;border-radius:999px;font-weight:600;box-shadow:var(--shadow);transition:.2s}
+  .cta:hover{background:var(--rose-d);transform:translateY(-1px)}
+  .cta.ghost{background:transparent;color:var(--rose-d);box-shadow:none;border:1.5px solid var(--blush2);padding:13px 22px}
+  .hero .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .lash{display:block;margin:0 auto 10px;opacity:.9}
+
+  section{padding:34px 0}
+  .sec-title{text-align:center;margin-bottom:22px}
+  .sec-title h2{font-size:32px}
+  .sec-title span{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:600}
+
+  /* serviços */
+  .svc{display:grid;gap:12px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;gap:14px;align-items:center;transition:.2s}
+  .card:hover{border-color:var(--blush2);box-shadow:var(--shadow)}
+  .card .info{flex:1}
+  .card h3{font-size:22px;line-height:1.1}
+  .card p{font-size:13.5px;color:var(--muted);margin-top:3px}
+  .card .meta{font-size:12.5px;color:var(--muted);margin-top:6px;display:flex;gap:10px}
+  .card .price{font-weight:700;color:var(--rose-d);font-size:17px;white-space:nowrap}
+  .card .pick{margin-top:8px;font-size:13px;font-weight:600;color:var(--rose);border:1.5px solid var(--blush2);padding:6px 14px;border-radius:999px}
+  .card .pick:hover{background:var(--blush)}
+  .right{text-align:right}
+
+  /* agendamento */
+  .booking{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:22px 18px;box-shadow:var(--shadow)}
+  .steps{display:flex;justify-content:space-between;margin-bottom:22px;position:relative}
+  .steps::before{content:"";position:absolute;left:14px;right:14px;top:13px;height:2px;background:var(--line);z-index:0}
+  .st{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;color:var(--muted);width:56px}
+  .st i{width:28px;height:28px;border-radius:50%;background:var(--white);border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:12px}
+  .st.on i{border-color:var(--rose);color:var(--rose)}
+  .st.done i{background:var(--rose);border-color:var(--rose);color:#fff}
+  .st.on,.st.done{color:var(--ink)}
+  .pane{display:none;animation:fade .25s ease}
+  .pane.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .pane h3{font-size:24px;margin-bottom:4px}
+  .hint{font-size:13.5px;color:var(--muted);margin-bottom:16px}
+
+  .opt{width:100%;text-align:left;border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:.15s;background:var(--white)}
+  .opt:hover{border-color:var(--blush2)}
+  .opt.sel{border-color:var(--rose);background:var(--blush)}
+  .opt small{display:block;color:var(--muted);font-size:12.5px}
+  .opt b{font-weight:600}
+
+  .days{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:thin;scroll-snap-type:x mandatory}
+  .day{flex:0 0 62px;scroll-snap-align:start;border:1.5px solid var(--line);border-radius:14px;padding:9px 4px;text-align:center;background:var(--white);transition:.15s}
+  .day .w{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+  .day .n{font-size:22px;font-weight:700;line-height:1.2}
+  .day .m{font-size:11px;color:var(--muted)}
+  .day.sel{border-color:var(--rose);background:var(--rose);color:#fff}
+  .day.sel .w,.day.sel .m{color:#fff}
+  .day:disabled{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+  .month{font-size:13px;font-weight:600;color:var(--rose-d);margin:0 0 8px}
+
+  .slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+  .slot{border:1.5px solid var(--line);border-radius:12px;padding:10px 0;font-weight:600;font-size:14px;background:var(--white)}
+  .slot.sel{background:var(--rose);border-color:var(--rose);color:#fff}
+  .slot:disabled{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+  .empty{font-size:14px;color:var(--muted);text-align:center;padding:18px;border:1.5px dashed var(--line);border-radius:14px;margin-top:14px}
+
+  label{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}
+  input[type=text],input[type=tel],textarea{width:100%;font:inherit;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--cream);color:var(--ink);outline:none;transition:.15s}
+  input:focus,textarea:focus{border-color:var(--rose);background:#fff}
+  textarea{min-height:76px;resize:vertical}
+  .seg{display:flex;gap:8px}
+  .seg button{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:11px;font-weight:600;font-size:14px;background:var(--white)}
+  .seg button.sel{border-color:var(--rose);background:var(--blush);color:var(--rose-d)}
+  .err{color:#B3261E;font-size:12.5px;margin-top:5px;display:none}
+  .err.show{display:block}
+
+  .summary{background:var(--blush);border-radius:16px;padding:16px;font-size:14.5px}
+  .summary div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--blush2)}
+  .summary div:last-child{border:none}
+  .summary span{color:var(--muted)}
+  .summary b{text-align:right}
+  .notice{display:flex;gap:10px;font-size:13px;color:var(--ink);background:#FFF3E3;border:1px solid #F3DDBF;border-radius:14px;padding:12px 14px;margin-top:14px}
+
+  .nav{display:flex;gap:10px;margin-top:20px}
+  .nav .back{flex:0 0 auto;padding:14px 18px;border-radius:999px;border:1.5px solid var(--line);font-weight:600;color:var(--muted)}
+  .nav .next{flex:1;padding:14px;border-radius:999px;background:var(--rose);color:#fff;font-weight:600;transition:.2s}
+  .nav .next:disabled{background:var(--blush2);cursor:not-allowed}
+  .wa{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:18px;padding:15px;border-radius:999px;background:#25D366;color:#fff;font-weight:700;text-decoration:none;box-shadow:0 10px 24px -12px rgba(37,211,102,.7)}
+  .wa:hover{filter:brightness(.95)}
+  .okbox,.errbox{display:flex;flex-direction:column;gap:3px;border-radius:14px;padding:13px 15px;margin-bottom:14px;font-size:14px}
+  .okbox{background:#E7F4EE;color:#1F6B4A}
+  .okbox b{font-size:16px}
+  .errbox{background:#FCE8E6;color:#9B2C22}
+  [hidden]{display:none!important}
+  .reserve{display:block;width:100%;margin-top:18px;padding:15px;border-radius:999px;background:var(--rose);color:#fff;font-weight:700;box-shadow:var(--shadow)}
+  .reserve:disabled{opacity:.6;cursor:wait}
+  .reserve.ghost{background:#fff;color:var(--rose-d);border:1.5px solid var(--blush2);box-shadow:none}
+  .loading{font-size:14px;color:var(--muted);text-align:center;padding:22px;border:1.5px dashed var(--line);border-radius:14px;margin-top:6px}
+  .small-link{display:block;text-align:center;margin-top:12px;font-size:13px;color:var(--muted)}
+
+  /* portfólio */
+  .gal{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .gal button{padding:0;border-radius:14px;overflow:hidden;aspect-ratio:1;background:var(--blush)}
+  .gal img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(1.08) saturate(1.05);transition:transform .3s}
+  .gal button:hover img{transform:scale(1.04)}
+  .lb{position:fixed;inset:0;background:rgba(30,18,22,.92);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+  .lb.show{display:flex}
+  .lb img{max-width:100%;max-height:82vh;border-radius:16px;filter:brightness(1.08)}
+  .lb .x{position:absolute;top:14px;right:16px;color:#fff;font-size:30px;width:44px;height:44px}
+  .lb .nv{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:34px;width:48px;height:64px}
+  .lb .pv{left:4px} .lb .nx{right:4px}
+
+  /* cuidados */
+  .care{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .care .c{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .care .ic{font-size:20px}
+  .care b{display:block;font-size:14px;margin:4px 0 2px}
+  .care p{font-size:12.5px;color:var(--muted)}
+
+  /* faq */
+  details{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:9px}
+  summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--rose);font-size:20px;line-height:1}
+  details[open] summary::after{content:"–"}
+  details p{font-size:14px;color:var(--muted);margin-top:8px}
+
+  footer{text-align:center;padding:30px 0 40px;font-size:12.5px;color:var(--muted)}
+  footer .sig{display:inline-flex;align-items:center;gap:7px;margin-top:10px;background:#0A0A0A;color:#fff;padding:7px 14px;border-radius:999px;font-size:11.5px;letter-spacing:.3px;text-decoration:none}
+  footer .sig b{color:#B8F23A;font-weight:700}
+
+  .sticky{position:fixed;left:0;right:0;bottom:14px;display:flex;justify-content:center;pointer-events:none;transition:.25s;opacity:0;transform:translateY(20px)}
+  .sticky.show{opacity:1;transform:none}
+  .sticky a{pointer-events:auto}
+</style>
+</head>
+<body>
+
+
+<header class="hero">
+  <div class="wrap">
+    <h1 class="logo">Colly<span class="sr"> Lash</span></h1>
+    <svg class="swash" width="210" height="16" viewBox="0 0 240 18" aria-hidden="true"><path d="M4 6 Q120 22 236 6" stroke="#C6A07A" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+    <div class="tag">Lash Designer</div>
+    <p>Realçando a beleza natural do seu olhar ✨ Escolha o serviço e o horário em menos de 1 minuto.</p>
+    <div class="row">
+      <a class="cta" href="#agendar">Agendar horário</a>
+      <a class="cta ghost" href="https://www.instagram.com/_collylash/" target="_blank" rel="noopener">Ver no Instagram</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="servicos">
+    <div class="sec-title"><span>Serviços</span><h2>Escolha o seu olhar</h2></div>
+    <div class="svc" id="svcList"></div>
+  </section>
+
+  <section id="trabalhos">
+    <div class="sec-title"><span>Portfólio</span><h2>Meus trabalhos</h2></div>
+    <div class="gal" id="gal"></div>
+  </section>
+
+  <section id="agendar">
+    <div class="sec-title"><span>Agendamento</span><h2>Reserve seu horário</h2></div>
+    <div class="booking">
+      <div class="steps" id="steps"></div>
+
+      <!-- 1 serviço -->
+      <div class="pane" data-step="0">
+        <h3>Qual serviço?</h3>
+        <p class="hint">Toque para selecionar.</p>
+        <div id="svcOpts"></div>
+      </div>
+
+      <!-- 2 data -->
+      <div class="pane" data-step="1">
+        <h3>Qual dia?</h3>
+        <p class="hint" id="hoursHint"></p>
+        <p class="month" id="monthLbl"></p>
+        <div class="days" id="days"></div>
+        <div id="slotsWrap"></div>
+      </div>
+
+      <!-- 3 dados -->
+      <div class="pane" data-step="2">
+        <h3>Seus dados</h3>
+        <p class="hint">Para a Colly confirmar com você.</p>
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" placeholder="Como você se chama?" autocomplete="name">
+        <div class="err" id="eNome">Digite seu nome.</div>
+        <label for="tel">WhatsApp</label>
+        <input type="tel" id="tel" placeholder="(11) 90000-0000" autocomplete="tel" inputmode="tel">
+        <div class="err" id="eTel">Digite um WhatsApp com DDD.</div>
+        <label>É sua primeira vez com extensão de cílios?</label>
+        <div class="seg" id="primeira">
+          <button type="button" data-v="Sim">Sim</button>
+          <button type="button" data-v="Não">Não</button>
+        </div>
+        <label for="obs">Alguma alergia ou observação? <span style="font-weight:400;color:var(--muted)">(opcional)</span></label>
+        <textarea id="obs" placeholder="Ex.: olhos sensíveis, uso lente de contato…"></textarea>
+        <input type="text" id="site" name="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      </div>
+
+      <!-- 4 resumo -->
+      <div class="pane" data-step="3">
+        <h3 id="t4">Confira e envie</h3>
+        <p class="hint" id="h4">O pedido vai pronto para o WhatsApp da Colly.</p>
+        <div class="okbox" id="okBox" hidden><b>Horário reservado!</b><span>Ninguém mais consegue marcar esse horário. Agora avise a Colly para ela confirmar.</span></div>
+        <div class="errbox" id="errBox" hidden></div>
+        <div class="summary" id="summary"></div>
+        <div class="notice" id="notice"></div>
+        <button class="reserve" type="button" id="reserveBtn" hidden>Confirmar agendamento</button>
+        <button class="reserve ghost" type="button" id="otherBtn" hidden>Escolher outro horário</button>
+        <a class="wa" id="waBtn" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"/></svg>
+          <span id="waTxt">Enviar pedido no WhatsApp</span>
+        </a>
+        <button class="small-link" type="button" id="restart">Fazer outro agendamento</button>
+      </div>
+
+      <div class="nav" id="nav">
+        <button class="back" type="button" id="back">Voltar</button>
+        <button class="next" type="button" id="next">Continuar</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="cuidados">
+    <div class="sec-title"><span>Pós-aplicação</span><h2>Cuidados com seus cílios</h2></div>
+    <div class="care" id="care"></div>
+  </section>
+
+  <section id="duvidas">
+    <div class="sec-title"><span>Dúvidas</span><h2>Perguntas frequentes</h2></div>
+    <div id="faq"></div>
+  </section>
+</main>
+
+<footer>
+  <div>© <span id="ano"></span> Colly Lash · Agendamentos online</div>
+  <a class="sig" href="https://www.novrixtech.com.br" target="_blank" rel="noopener">Um sistema <b>Novrix Tech</b></a>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-label="Foto ampliada">
+  <button class="x" type="button" id="lbX" aria-label="Fechar">×</button>
+  <button class="nv pv" type="button" id="lbP" aria-label="Foto anterior">‹</button>
+  <img id="lbImg" alt="">
+  <button class="nv nx" type="button" id="lbN" aria-label="Próxima foto">›</button>
+</div>
+
+<div class="sticky" id="sticky"><a class="cta" href="#agendar">Agendar horário</a></div>
+
+<script>
+/* ============ CONFIGURAÇÃO (é só editar aqui) ============ */
+const CONFIG = {
+  nome: "Colly",
+  // Endereço da agenda no servidor. Vazio = modo simples (sem bloquear horários).
+  api: "https://novrix-agenda.onrender.com/api/agenda/colly",
+  // WhatsApp com DDI + DDD, só números. Vazio = abre o WhatsApp para escolher o contato (modo demonstração).
+  whatsapp: "5511967267196",
+  sinal: 0,               // valor do sinal via Pix (0 = sem sinal)
+  diasAntecedencia: 21,   // quantos dias para frente dá para agendar
+  antecedenciaHoras: 3,   // no mesmo dia, só horários a partir de agora + X horas
+  // Horários fixos de cada dia. 0=domingo … 6=sábado. [] = fechado.
+  horario: {
+    0: ["14:00","17:00","21:00"],
+    1: ["13:00","16:00","19:00","22:00"],
+    2: ["13:00","16:00","19:00","22:00"],
+    3: ["13:00","16:00","19:00","22:00"],
+    4: ["13:00","16:00","19:00","22:00"],
+    5: ["13:00","16:00","19:00","22:00"],
+    6: ["08:00","13:00","19:00","22:00"],
+  },
+  // Horários já ocupados: "AAAA-MM-DD": ["HH:MM", ...] (na versão com painel isso vem automático)
+  ocupados: {},
+  servicos: [
+    {id:"br",    nome:"Volume Brasileiro", desc:"Fios em formato de Y: volume cheio e natural.",       preco:70},
+    {id:"gmar",  nome:"Gatinho Marrom",    desc:"Alongado no canto externo, com fios marrons suaves.", preco:70},
+    {id:"gpre",  nome:"Gatinho Preto",     desc:"Alongado no canto externo, com fios pretos marcantes.",preco:70},
+    {id:"fox",   nome:"Fox Eye",           desc:"Olhar puxado para cima, efeito raposa.",              preco:70},
+    {id:"bon",   nome:"Boneca",            desc:"Fios maiores no centro: olhar aberto e arredondado.", preco:70},
+    {id:"egi",   nome:"Volume Egípcio",    desc:"Efeito marcante, fios em formato de W.",              preco:70},
+    {id:"man",   nome:"Manutenção",        desc:"Reposição dos fios para manter o olhar cheio.",       preco:50},
+    {id:"rem",   nome:"Remoção",           desc:"Retirada segura, sem danificar o fio natural.",       preco:20},
+  ],
+  cuidados: [
+    ["💧","Nada de água por 24h","Evite molhar, vapor e sauna no primeiro dia."],
+    ["🪥","Escove todo dia","Penteie os fios com a escovinha, de manhã e à noite."],
+    ["🚫","Sem rímel e óleo","Nada de rímel e demaquilante oleoso nos cílios."],
+    ["😴","Durma de barriga pra cima","Ou de lado, sem esfregar o rosto no travesseiro."],
+    ["🤚","Não puxe os fios","Puxar arranca o fio natural junto."],
+    ["📅","Manutenção em 15–20 dias","Para manter o olhar sempre cheio."],
+  ],
+  faq: [
+    ["Quanto tempo dura a extensão?","Os fios acompanham o ciclo natural dos seus cílios. Com a manutenção a cada 15 a 20 dias, o olhar fica sempre completo."],
+    ["Dói? Estraga meus cílios?","Não dói: você fica de olhos fechados e relaxada. Com aplicação correta e os cuidados em dia, seus cílios naturais não são prejudicados."],
+    ["Preciso ir sem maquiagem?","Sim, venha com os olhos limpos, sem rímel e sem lente de contato."],
+    ["E se eu atrasar ou precisar desmarcar?","Há tolerância de 15 minutos. Para remarcar, avise com 24h de antecedência."],
+  ],
+};
+/* ======================================================== */
+
+const fmt = v => v.toLocaleString("pt-BR",{style:"currency",currency:"BRL",minimumFractionDigits:0});
+const dur = m => (m>=60? Math.floor(m/60)+"h" : "") + (m%60? (m>=60?" ":"")+(m%60)+"min" : "");
+const pad = n => String(n).padStart(2,"0");
+const key = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const W = ["dom","seg","ter","qua","qui","sex","sáb"];
+const WL = ["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+const M = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const ML = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+
+const state = {step:0, svc:null, day:null, time:null, primeira:null, disp:null, dispErro:false, carregando:false, reservado:false};
+const $ = s => document.querySelector(s);
+const STEPS = ["Serviço","Data","Dados","Enviar"];
+
+/* serviços (vitrine) */
+function renderVitrine(){
+$("#svcList").innerHTML = CONFIG.servicos.map(s=>`
+  <div class="card">
+    <div class="info"><h3>${s.nome}</h3><p>${s.desc}</p></div>
+    <div class="right"><div class="price">${fmt(s.preco)}</div><button class="pick" data-id="${s.id}">Agendar</button></div>
+  </div>`).join("");
+document.querySelectorAll(".pick").forEach(b=>b.onclick=()=>{selectSvc(b.dataset.id); go(1); $("#agendar").scrollIntoView({behavior:"smooth"});});
+}
+renderVitrine();
+
+/* servidor da agenda */
+async function api(caminho, opcoes){
+  const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 70000);
+  try{
+    const r = await fetch(CONFIG.api + caminho, {...opcoes, signal: ctrl.signal});
+    const j = await r.json().catch(()=>({}));
+    return {status:r.status, ...j};
+  } finally { clearTimeout(t); }
+}
+async function carregarConfig(){
+  if(!CONFIG.api) return;
+  try{
+    const c = await api("/config/");
+    if(c.servicos && c.servicos.length){
+      CONFIG.servicos = c.servicos.map(x=>({id:String(x.id), nome:x.nome, desc:x.desc, preco:x.preco}));
+      if(c.whatsapp) CONFIG.whatsapp = c.whatsapp;
+      renderVitrine(); if(state.step===0) renderSvcOpts();
+    }
+  }catch(e){ /* mantém a lista da página */ }
+}
+async function carregarDisp(){
+  if(!CONFIG.api || state.carregando) return;
+  state.carregando = true; state.dispErro = false;
+  try{
+    const r = await api(`/disponibilidade/?inicio=${key(new Date())}&dias=${CONFIG.diasAntecedencia}`);
+    if(r.dias) state.disp = r.dias; else state.dispErro = true;
+  }catch(e){ state.dispErro = true; }
+  state.carregando = false;
+  if(state.step===1) renderDays();
+}
+
+/* opções do passo 1 */
+function renderSvcOpts(){
+  $("#svcOpts").innerHTML = CONFIG.servicos.map(s=>`
+    <button class="opt ${state.svc?.id===s.id?"sel":""}" data-id="${s.id}">
+      <span><b>${s.nome}</b><small>${s.desc}</small></span><b>${fmt(s.preco)}</b>
+    </button>`).join("");
+  document.querySelectorAll("#svcOpts .opt").forEach(b=>b.onclick=()=>{selectSvc(b.dataset.id); renderSvcOpts(); updateNav();});
+}
+function selectSvc(id){
+  const prev = state.svc?.id;
+  state.svc = CONFIG.servicos.find(s=>String(s.id)===String(id));
+  if(prev!==id) state.time=null;
+}
+
+/* dias */
+function openDays(){
+  const out=[], now=new Date(); now.setHours(0,0,0,0);
+  for(let i=0;i<CONFIG.diasAntecedencia;i++){const d=new Date(now); d.setDate(now.getDate()+i); out.push(d);}
+  return out;
+}
+function slotsFor(d){
+  if(state.disp){ if(!state.svc) return []; return (state.disp[key(d)]||[]).map(x=>({t:x.hora, ok:x.livre})); }
+  const lista = CONFIG.horario[d.getDay()]||[]; if(!state.svc) return [];
+  const busy=CONFIG.ocupados[key(d)]||[];
+  const limite=new Date(Date.now()+CONFIG.antecedenciaHoras*36e5);
+  return lista.map(t=>{
+    const [h,m]=t.split(":").map(Number); const dt=new Date(d); dt.setHours(h,m,0,0);
+    return {t, ok: dt>=limite && !busy.includes(t)};
+  });
+}
+function renderDays(){
+  $("#hoursHint").textContent = "Atendimento todos os dias. Os dias riscados já não têm horário livre.";
+  if(CONFIG.api && !state.disp && !state.dispErro){
+    $("#days").innerHTML = ""; $("#monthLbl").textContent = "";
+    $("#slotsWrap").innerHTML = `<div class="loading">Carregando horários livres…</div>`;
+    carregarDisp(); return;
+  }
+  const days = openDays();
+  $("#days").innerHTML = days.map(d=>{
+    const has = slotsFor(d).some(s=>s.ok);
+    return `<button class="day ${state.day&&key(state.day)===key(d)?"sel":""}" data-k="${key(d)}" ${has?"":"disabled"}>
+      <div class="w">${W[d.getDay()]}</div><div class="n">${d.getDate()}</div><div class="m">${M[d.getMonth()]}</div></button>`;
+  }).join("");
+  document.querySelectorAll(".day").forEach(b=>b.onclick=()=>{
+    state.day = days.find(d=>key(d)===b.dataset.k); state.time=null; renderDays(); updateNav();
+  });
+  const ref = state.day || days[0];
+  $("#monthLbl").textContent = ML[ref.getMonth()][0].toUpperCase()+ML[ref.getMonth()].slice(1)+" "+ref.getFullYear();
+  renderSlots();
+}
+function renderSlots(){
+  const w=$("#slotsWrap");
+  if(!state.day){ w.innerHTML=`<div class="empty">Escolha um dia para ver os horários livres.</div>`; return; }
+  const s = slotsFor(state.day);
+  w.innerHTML = `<p class="month" style="margin-top:16px">Horários de ${WL[state.day.getDay()]}, ${state.day.getDate()}/${pad(state.day.getMonth()+1)}</p>
+    <div class="slots">${s.map(x=>`<button class="slot ${state.time===x.t?"sel":""}" data-t="${x.t}" ${x.ok?"":"disabled"}>${x.t}</button>`).join("")}</div>`;
+  w.querySelectorAll(".slot").forEach(b=>b.onclick=()=>{state.time=b.dataset.t; renderSlots(); updateNav();});
+}
+
+/* dados */
+document.querySelectorAll("#primeira button").forEach(b=>b.onclick=()=>{
+  state.primeira=b.dataset.v; document.querySelectorAll("#primeira button").forEach(x=>x.classList.toggle("sel",x===b)); updateNav();
+});
+$("#tel").addEventListener("input",e=>{
+  let v=e.target.value.replace(/\D/g,"").slice(0,11);
+  if(v.length>6) v=`(${v.slice(0,2)}) ${v.slice(2,v.length-4)}-${v.slice(-4)}`;
+  else if(v.length>2) v=`(${v.slice(0,2)}) ${v.slice(2)}`;
+  e.target.value=v; updateNav();
+});
+$("#nome").addEventListener("input",updateNav);
+const nomeOk=()=>$("#nome").value.trim().length>=2;
+const telOk=()=>$("#tel").value.replace(/\D/g,"").length>=10;
+
+/* resumo + whatsapp */
+function renderSummary(){
+  const d=state.day, s=state.svc;
+  const data=`${WL[d.getDay()]}, ${d.getDate()}/${pad(d.getMonth()+1)} às ${state.time}`;
+  const rows=[["Serviço",s.nome],["Quando",data],["Valor",fmt(s.preco)],["Nome",$("#nome").value.trim()],["WhatsApp",$("#tel").value],["Primeira vez",state.primeira]];
+  const obs=$("#obs").value.trim(); if(obs) rows.push(["Obs.",obs]);
+  $("#summary").innerHTML=rows.map(([a,b])=>`<div><span>${a}</span><b>${esc(b)}</b></div>`).join("");
+  $("#notice").innerHTML = CONFIG.sinal
+    ? `<span>💳</span><span>O horário é garantido após o <b>sinal de ${fmt(CONFIG.sinal)} via Pix</b>, descontado do valor final. A ${CONFIG.nome} envia a chave quando confirmar.</span>`
+    : `<span>📲</span><span>A ${CONFIG.nome} responde para confirmar seu horário.</span>`;
+  const dia = WL[d.getDay()][0].toUpperCase()+WL[d.getDay()].slice(1);
+  const msg=[
+    `Olá, ${CONFIG.nome}! Tudo bem?`,
+    `Gostaria de agendar um horário:`,
+    ``,
+    `*Modelo:* ${s.nome}`,
+    `*Valor:* ${fmt(s.preco).replace(/\u00a0/g," ")}`,
+    `*Data:* ${dia}, ${d.getDate()}/${pad(d.getMonth()+1)}`,
+    `*Horário:* ${state.time}`,
+    ``,
+    `*Nome:* ${$("#nome").value.trim()}`,
+    `*WhatsApp:* ${$("#tel").value}`,
+    `*Primeira vez:* ${state.primeira}`,
+  ];
+  if(obs) msg.push(`*Observações:* ${obs}`);
+  if(state.reservado) msg.push(``,`(Já reservei o horário pela página.)`);
+  msg.push(``,`Fico no aguardo da confirmação!`);
+  const base = CONFIG.whatsapp ? `https://wa.me/${CONFIG.whatsapp}` : `https://wa.me/`;
+  $("#waBtn").href = `${base}?text=${encodeURIComponent(msg.join("\n"))}`;
+  const modoApi = !!CONFIG.api;
+  $("#reserveBtn").hidden = !modoApi || state.reservado;
+  $("#waBtn").hidden = modoApi && !state.reservado;
+  $("#okBox").hidden = !state.reservado;
+  $("#t4").textContent = state.reservado ? "Pronto!" : "Confira e envie";
+  $("#h4").textContent = state.reservado ? "Seu pedido:" : (modoApi ? "Confira os dados e confirme para reservar o horário." : "O pedido vai pronto para o WhatsApp da Colly.");
+  $("#waTxt").textContent = state.reservado ? "Avisar a Colly no WhatsApp" : "Enviar pedido no WhatsApp";
+}
+
+async function reservar(){
+  const btn = $("#reserveBtn"); btn.disabled = true; btn.textContent = "Reservando…";
+  $("#errBox").hidden = true; $("#otherBtn").hidden = true;
+  let r;
+  try{
+    r = await api("/agendar/", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({
+      servico_id: state.svc.id, data: key(state.day), hora: state.time,
+      nome: $("#nome").value.trim(), telefone: $("#tel").value, primeira_vez: state.primeira==="Sim",
+      observacoes: $("#obs").value.trim(), site: $("#site").value,
+    })});
+  }catch(e){ r = {status:0}; }
+  btn.disabled = false; btn.textContent = "Confirmar agendamento";
+  if(r.ok){ state.reservado = true; state.disp = null; renderSummary(); updateNav(); return; }
+  if(r.status===0){
+    // servidor fora do ar: não deixa a cliente sem agendar
+    $("#errBox").innerHTML = "Não consegui falar com a agenda agora. Envie o pedido pelo WhatsApp que a Colly confirma com você.";
+    $("#errBox").hidden = false; $("#reserveBtn").hidden = true; $("#waBtn").hidden = false;
+    return;
+  }
+  $("#errBox").textContent = r.erro || "Não foi possível reservar. Tente de novo.";
+  $("#errBox").hidden = false;
+  if(r.codigo==="ocupado"){ $("#otherBtn").hidden = false; $("#reserveBtn").hidden = true; state.disp = null; }
+}
+$("#reserveBtn").onclick = reservar;
+$("#otherBtn").onclick = ()=>{ state.time = null; $("#errBox").hidden = true; $("#otherBtn").hidden = true; go(1); };
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* navegação */
+function canNext(){
+  if(state.step===0) return !!state.svc;
+  if(state.step===1) return !!(state.day&&state.time);
+  if(state.step===2) return nomeOk()&&telOk()&&!!state.primeira;
+  return false;
+}
+function updateNav(){
+  $("#next").disabled=!canNext();
+  $("#back").style.visibility = state.step===0?"hidden":"visible";
+  $("#nav").style.display = (state.step===3 && (state.reservado || !CONFIG.api)) ? "none" : "flex";
+  $("#next").hidden = state.step===3;
+  $("#restart").hidden = state.step===3 && CONFIG.api && !state.reservado;
+  $("#steps").innerHTML = STEPS.map((n,i)=>`<div class="st ${i<state.step?"done":i===state.step?"on":""}"><i>${i<state.step?"✓":i+1}</i>${n}</div>`).join("");
+}
+function go(n){
+  state.step=n;
+  document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("show",+p.dataset.step===n));
+  if(n===0) renderSvcOpts();
+  if(n===1) renderDays();
+  if(n===3) renderSummary();
+  updateNav();
+}
+$("#next").onclick=()=>{
+  if(state.step===2){ $("#eNome").classList.toggle("show",!nomeOk()); $("#eTel").classList.toggle("show",!telOk()); }
+  if(canNext()) go(state.step+1);
+};
+$("#back").onclick=()=>go(Math.max(0,state.step-1));
+$("#restart").onclick=()=>{Object.assign(state,{svc:null,day:null,time:null,reservado:false,disp:null,dispErro:false}); $("#errBox").hidden=true; $("#otherBtn").hidden=true; go(0);};
+// voltar do resumo (antes de reservar) para corrigir dados
+
+
+/* portfólio */
+const FOTOS = Array.from({length:8},(_,i)=>`img/trabalho-${i+1}.jpg`);
+let lbI=0;
+$("#gal").innerHTML = FOTOS.map((f,i)=>`<button type="button" data-i="${i}" aria-label="Ampliar trabalho ${i+1}"><img src="${f}" alt="Extensão de cílios feita pela Colly, trabalho ${i+1}" loading="lazy"></button>`).join("");
+const lbShow=i=>{lbI=(i+FOTOS.length)%FOTOS.length; $("#lbImg").src=FOTOS[lbI]; $("#lb").classList.add("show");};
+document.querySelectorAll("#gal button").forEach(b=>b.onclick=()=>lbShow(+b.dataset.i));
+$("#lbX").onclick=()=>$("#lb").classList.remove("show");
+$("#lbP").onclick=e=>{e.stopPropagation(); lbShow(lbI-1);};
+$("#lbN").onclick=e=>{e.stopPropagation(); lbShow(lbI+1);};
+$("#lb").onclick=e=>{ if(e.target.id==="lb") $("#lb").classList.remove("show"); };
+
+/* cuidados + faq */
+$("#care").innerHTML = CONFIG.cuidados.map(([i,t,p])=>`<div class="c"><div class="ic">${i}</div><b>${t}</b><p>${p}</p></div>`).join("");
+$("#faq").innerHTML = CONFIG.faq.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join("");
+$("#ano").textContent = new Date().getFullYear();
+
+/* botão flutuante */
+const io=new IntersectionObserver(([e])=>{
+  const ag=$("#agendar").getBoundingClientRect();
+  const inBooking = ag.top<innerHeight && ag.bottom>0;
+  $("#sticky").classList.toggle("show",!e.isIntersecting && !inBooking);
+});
+io.observe($(".hero"));
+addEventListener("scroll",()=>{
+  const ag=$("#agendar").getBoundingClientRect(), heroGone=$(".hero").getBoundingClientRect().bottom<0;
+  $("#sticky").classList.toggle("show", heroGone && !(ag.top<innerHeight && ag.bottom>0));
+},{passive:true});
+
+go(0);
+carregarConfig();
+</script>
+</body>
+</html>
