@@ -370,7 +370,7 @@ async function api(caminho, opcoes){
 async function carregarConfig(){
   if(!CONFIG.api) return;
   try{
-    const c = await api("/config/");
+    const c = await api("/config");
     if(c.servicos && c.servicos.length){
       CONFIG.servicos = c.servicos.map(x=>({id:String(x.id), nome:x.nome, desc:x.desc, preco:x.preco}));
       if(c.whatsapp) CONFIG.whatsapp = c.whatsapp;
@@ -382,7 +382,7 @@ async function carregarDisp(){
   if(!CONFIG.api || state.carregando) return;
   state.carregando = true; state.dispErro = false;
   try{
-    const r = await api(`/disponibilidade/?inicio=${key(new Date())}&dias=${CONFIG.diasAntecedencia}`);
+    const r = await api(`/disponibilidade?inicio=${key(new Date())}&dias=${CONFIG.diasAntecedencia}`);
     if(r.dias) state.disp = r.dias; else state.dispErro = true;
   }catch(e){ state.dispErro = true; }
   state.carregando = false;
@@ -505,7 +505,7 @@ async function reservar(){
   $("#errBox").hidden = true; $("#otherBtn").hidden = true;
   let r;
   try{
-    r = await api("/agendar/", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({
+    r = await api("/agendar", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({
       servico_id: state.svc.id, data: key(state.day), hora: state.time,
       nome: $("#nome").value.trim(), telefone: $("#tel").value, primeira_vez: state.primeira==="Sim",
       observacoes: $("#obs").value.trim(), site: $("#site").value,
