@@ -288,8 +288,8 @@
 /* ============ CONFIGURAÇÃO (é só editar aqui) ============ */
 const CONFIG = {
   nome: "Colly",
-  // Endereço da agenda no servidor. Vazio = modo simples (sem bloquear horários).
-  api: "https://novrix-agenda.onrender.com/api/agenda/colly",
+  // Agenda no servidor (a Vercel repassa /api para o Render). Vazio = modo simples, só WhatsApp.
+  api: "/api/agenda/colly",
   // WhatsApp com DDI + DDD, só números. Vazio = abre o WhatsApp para escolher o contato (modo demonstração).
   whatsapp: "5511967267196",
   sinal: 0,               // valor do sinal via Pix (0 = sem sinal)

@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/painel", "destination": "https://novrix-agenda.onrender.com/painel" },
+    { "source": "/painel/:caminho*", "destination": "https://novrix-agenda.onrender.com/painel/:caminho*" },
+    { "source": "/api/:caminho*", "destination": "https://novrix-agenda.onrender.com/api/:caminho*" }
+  ]
+}
